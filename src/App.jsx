@@ -1,5 +1,6 @@
-import { useQuery } from "react-query";
-import { getAnecdotes } from "./services/anecdotesServices";
+import {  useQuery } from "react-query";
+import {  getAnecdotes } from "./services/anecdotesServices";
+
 import AnecdoteForm from "./components/AnecdoteForm";
 import Notification from "./components/Notification";
 
@@ -8,8 +9,25 @@ const App = () => {
     console.log("vote");
   };
 
+  // const queryClient =  useQueryClient() 
+
+  // const newAnecdoteMutation = useMutation(createAnecdote, {
+  //   onSuccess: (newAnecdote) => {
+  //     const anedotes = queryClient.getQueryData('anedotes')
+  //     queryClient.setQueryData('anedotes', anedotes.concat(newAnecdote))
+  //   }
+  // })
+
+  // const addAnecdote = async (event) => {
+  //   event.preventDefault()
+  //   const content = event.target.anecdote.value
+  //   event.target.anecdote.value = ''
+  //   newAnecdoteMutation.mutate({ id: uuidv4(), content, votes: 0 })
+  // }
+
   const result = useQuery("anedotes", getAnecdotes, {
     retry: false,
+    refetchOnWindowFocus: false
   });
 
   if (result.isLoading) {
