@@ -15,19 +15,21 @@ const AnecdoteForm = () => {
     },
   });
 
+  const handleNotification = (type, content = null) => {
+    notifyDispatch({ type, payload: content });
+    setTimeout(() => {
+      notifyDispatch({ type: "CLEAR" });
+    }, 5000);
+  };
+
   const onCreate = (event) => {
     event.preventDefault();
     const content = event.target.anecdote.value;
     if (content.length < 5)
-      return alert(
-        "The content or the anecdote must be greater that 5 characters"
-      );
+      return handleNotification("ANECDOTE_ADDED_ERROR");
     event.target.anecdote.value = "";
     newAnecdoteMutation.mutate({ id: uuidv4(), content, votes: 0 });
-    notifyDispatch({ type: "ANECDOTE_ADDED", payload: content });
-    setTimeout(() => {
-      notifyDispatch({ type: "CLEAR" });
-    }, 5000);
+    handleNotification("ANECDOTE_ADDED", content);
   };
 
   return (
